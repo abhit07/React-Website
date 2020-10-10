@@ -1,54 +1,40 @@
 import React, { Component } from 'react';
 import { Card, CardImg, CardText, CardBody, CardTitle } from 'reactstrap';
-// import { ListGroup, ListGroupItem } from 'reactstrap';
+
 
 class Dishdetail extends Component {
 
-    // constructor(props) {
-    //     super(props);
-
-    //     this.state = {
-    //         selectedDish: null
-
-    //     }
-
-    // }
 
 
-    renderDish(selecteddish) {
-        if (selecteddish != null) {
+    renderDish(dish) {
                 return(
+                    <div className="col-12 col-md-5 m-1">
                     <Card>
-                        <CardImg width="100%" src={selecteddish.image} alt={selecteddish.name} />
+                        <CardImg top src={dish.image} alt={dish.name} />
                         <CardBody>
-                            <CardTitle>{selecteddish.name}</CardTitle>
-                            <CardText>{selecteddish.description}</CardText>
+                            <CardTitle>{dish.name}</CardTitle>
+                            <CardText>{dish.description}</CardText>
                         </CardBody>
                     </Card>
-                );
-        }
-        else {
-            return(<div></div>);
-        }
-    }
+                    </div>
+                );}
 
     
        
     
 
-    renderComments(selecteddish) {
+    renderComments(comments) {
 
-        if(selecteddish != null){
-
-            console.log(selecteddish.comments);
+        if(comments != null){
             return (
-                <div>
+                <div className="col-12 col-md-5 m-1">
                     <h4>Comments</h4>
                     <ul className="list-unstyled">
-                        {selecteddish.comments.map((komment, index) => {
+                        {comments.map((comment) => {
                             return (
-                                <li key={index}>{komment.comment}<br/>
-                                <p>--{komment.author}, {komment.date}</p></li>
+                                <li key={comment.id}><br/>
+                                <p>{comment.comment}</p>
+                                <p>--{comment.author}, {new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'short', day: '2-digit'}).format(new Date(Date.parse(comment.date)))}</p></li>
                             )
                         })}
                     </ul>
@@ -66,16 +52,20 @@ class Dishdetail extends Component {
 
 
     render() {
-        return(
-            <div className="row">
-                <div className="col-12 col-md-5 m-1">
-                    {this.renderDish(this.props.selectedDish)}
+        if(this.props.dish!=null)
+            return(
+                <div className="container">
+                    <div className="row">
+                        {this.renderDish(this.props.dish)}
+                        {this.renderComments(this.props.dish.comments)}
+                    </div>
                 </div>
-                <div className="col-12 col-md-5 m-1">
-                     {this.renderComments(this.props.selectedDish)}
-                </div>
-            </div>
-        )
+            );
+        
+        else
+            return(
+                <div></div>
+            )
     }
 }
 
