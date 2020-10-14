@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import { Card, CardImg, CardText, CardBody, CardTitle, BreadcrumbItem, Breadcrumb,
-Modal, ModalBody, ModalHeader, Label, Button, Row, Col } from 'reactstrap'
-import { Link } from 'react-router-dom'
-import { Control, LocalForm, Errors} from 'react-redux-form'
+Modal, ModalBody, ModalHeader, Label, Button, Row, Col } from 'reactstrap';
+import { Link } from 'react-router-dom';
+import { Control, LocalForm, Errors} from 'react-redux-form';
+import { FadeTransform, Fade, Stagger } from 'react-animation-components';
+
 
 
 
@@ -103,13 +105,19 @@ class CommentForm extends Component{
 
 function RenderDish({dish}){
         return(
-            <Card>
-                <CardImg width="100%" src={dish.image} alt={dish.name}></CardImg>
-                <CardBody>
-                    <CardTitle>{dish.name}</CardTitle>
-                    <CardText>{dish.description}</CardText>
-                </CardBody>
-            </Card>
+            <FadeTransform
+                in
+                transformProps={{
+                    exitTransform: 'scale(0.5) translateY(-50%)'
+                }}>
+                <Card>
+                    <CardImg width="100%" src={dish.image} alt={dish.name}></CardImg>
+                    <CardBody>
+                        <CardTitle>{dish.name}</CardTitle>
+                        <CardText>{dish.description}</CardText>
+                    </CardBody>
+                </Card>
+            </FadeTransform>
         )
     }
 
@@ -117,15 +125,19 @@ function RenderDishComments({comments}){
     if (comments != null){
         const comments_formatted = comments.map((comment) => {
             return(
-                <li className="m-2" key={comment.id}>
-                    {comment.comment}<br/>--{comment.author}, {new Intl.DateTimeFormat('en-US', {year: 'numeric', month: 'short', day: '2-digit'}).format(new Date(Date.parse(comment.date)))}
-                </li>
+                <Fade in>
+                    <li className="m-2" key={comment.id}>
+                        {comment.comment}<br/>--{comment.author}, {new Intl.DateTimeFormat('en-US', {year: 'numeric', month: 'short', day: '2-digit'}).format(new Date(Date.parse(comment.date)))}
+                    </li>
+                </Fade>
                 
             )
         });
         return(
             <ul className="list-unstyled">
+                <Stagger in>
                     {comments_formatted}
+                </Stagger>
             </ul>
         )
     }else{
