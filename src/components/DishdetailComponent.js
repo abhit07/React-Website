@@ -111,7 +111,7 @@ function RenderDish({dish}){
                     exitTransform: 'scale(0.5) translateY(-50%)'
                 }}>
                 <Card>
-                    <CardImg width="100%" src={dish.image} alt={dish.name}></CardImg>
+                    <CardImg width="100%" src={'../'+ dish.image} alt={dish.name}></CardImg>
                     <CardBody>
                         <CardTitle>{dish.name}</CardTitle>
                         <CardText>{dish.description}</CardText>
